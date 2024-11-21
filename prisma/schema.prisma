@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id            Int    @id @default(autoincrement())
+  question_code String
+  question      String
+
+  answers       Answers[] @relation("QuestionAnswers")
+}
+
+model Answers {
+  id Int @id @default(autoincrement())
+  answer String
+  questionId Int @unique
+  sessionId Int @unique
+
+  question Question @relation("QuestionAnswers", fields: [questionId], references: [id])
+  session Session @relation("SessionAnswer", fields: [sessionId], references: [id])
+}
+
+model Users {
+  id Int @id @default(autoincrement())
+  nama String
+  umur String
+  kelas String
+
+  sessions Session[] @relation("UserSession")
+  recommendations Recommendations[] @relation("UserRecommendations")
+}
+
+model Session {
+    id Int @id @default(autoincrement())
+    userId Int @unique
+    
+    user Users @relation("UserSession", fields: [userId], references: [id])
+    answer Answers[] @relation("SessionAnswer")
+}
+
+model Recommendations {
+    id Int @id @default(autoincrement())
+    userId Int @unique
+
+    user Users @relation("UserRecommendations", fields: [userId], references: [id])
+    rules RecommendationRules[] @relation("RecommendationRules")
+    learnings LearningRecommendations[] @relation("RecommendationLearning")
+}
+
+model LearningRecommendations {
+    id Int @id @default(autoincrement())
+    recommendationCode String @unique
+    recommendation String
+
+    recommendations Recommendations[] @relation("RecommendationLearning")
+}
+
+model RecommendationRules {
+  id Int    @id @default(autoincrement())
+  rule       String
+
+  // Relasi
+  recommendation Recommendations @relation("RecommendationRules", fields: [id], references: [id])
+}
