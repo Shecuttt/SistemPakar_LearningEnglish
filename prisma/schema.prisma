@@ -8,62 +8,63 @@ datasource db {
 }
 
 model Question {
-  id            Int    @id @default(autoincrement())
-  question_code String
+  id            Int       @id @default(autoincrement())
+  question_code String    @unique
   question      String
-
-  answers       Answers[] @relation("QuestionAnswers")
+  answers       Answer[]  @relation("QuestionAnswers")
+  orderNumber   Int?      // Urutan pertanyaan
+  isActive      Boolean   @default(true) // Untuk menonaktifkan pertanyaan
 }
+model Answer {
+  id         Int      @id @default(autoincrement())
+  isYes      Boolean  // Jawaban Ya (true) atau Tidak (false)
+  questionId Int
+  sessionId  Int
+  
+  question   Question @relation("QuestionAnswers", fields: [questionId], references: [id])
+  session    Session  @relation("SessionAnswers", fields: [sessionId], references: [id])
 
-model Answers {
-  id Int @id @default(autoincrement())
-  answer String
-  questionId Int @unique
-  sessionId Int @unique
-
-  question Question @relation("QuestionAnswers", fields: [questionId], references: [id])
-  session Session @relation("SessionAnswer", fields: [sessionId], references: [id])
+  @@index([questionId, sessionId])
 }
 
 model Users {
-  id Int @id @default(autoincrement())
-  nama String
-  umur String
-  kelas String
-
+  id       Int       @id @default(autoincrement())
+  nama     String
+  umur     String
+  kelas    String
   sessions Session[] @relation("UserSession")
-  recommendations Recommendations[] @relation("UserRecommendations")
 }
 
 model Session {
-    id Int @id @default(autoincrement())
-    userId Int @unique
-    
-    user Users @relation("UserSession", fields: [userId], references: [id])
-    answer Answers[] @relation("SessionAnswer")
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  completed   Boolean  @default(false)
+  result      LearningPath? @relation("SessionResult", fields: [resultId], references: [id])
+  resultId    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user        Users    @relation("UserSession", fields: [userId], references: [id])
+  answers     Answer[] @relation("SessionAnswers")
 }
 
-model Recommendations {
-    id Int @id @default(autoincrement())
-    userId Int @unique
-
-    user Users @relation("UserRecommendations", fields: [userId], references: [id])
-    rules RecommendationRules[] @relation("RecommendationRules")
-    learnings LearningRecommendations[] @relation("RecommendationLearning")
+model LearningPath {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique
+  name        String    // Nama jalur pembelajaran
+  description String    // Deskripsi detail
+  level       String    // Tingkat kesulitan
+  sessions    Session[] @relation("SessionResult")
+  rules       Rule[]    @relation("PathRules")
 }
 
-model LearningRecommendations {
-    id Int @id @default(autoincrement())
-    recommendationCode String @unique
-    recommendation String
+model Rule {
+  id             Int         @id @default(autoincrement())
+  learningPathId Int
+  conditions     Json        // Array of conditions (question_code dan expected answer)
+  priority       Int         @default(0)
+  
+  learningPath   LearningPath @relation("PathRules", fields: [learningPathId], references: [id])
 
-    recommendations Recommendations[] @relation("RecommendationLearning")
-}
-
-model RecommendationRules {
-  id Int    @id @default(autoincrement())
-  rule       String
-
-  // Relasi
-  recommendation Recommendations @relation("RecommendationRules", fields: [id], references: [id])
+  @@index([learningPathId])
 }
