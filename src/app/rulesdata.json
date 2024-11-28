@@ -1,0 +1,92 @@
+[
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q1", "answer": true },
+            { "question_code": "Q2", "answer": true },
+            { "question_code": "Q5", "answer": false }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q2", "answer": true },
+            { "question_code": "Q4", "answer": true },
+            { "question_code": "Q5", "answer": true }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q2", "answer": true },
+            { "question_code": "Q4", "answer": true },
+            { "question_code": "Q5", "answer": true },
+            { "question_code": "Q7", "answer": true },
+            { "question_code": "Q12", "answer": true },
+            { "question_code": "Q14", "answer": false }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q4", "answer": true },
+            { "question_code": "Q6", "answer": true },
+            { "question_code": "Q7", "answer": true },
+            { "question_code": "Q9", "answer": true },
+            { "question_code": "Q12", "answer": true },
+            { "question_code": "Q14", "answer": false }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q1", "answer": false },
+            { "question_code": "Q2", "answer": true },
+            { "question_code": "Q5", "answer": true }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q1", "answer": true },
+            { "question_code": "Q2", "answer": true },
+            { "question_code": "Q4", "answer": true },
+            { "question_code": "Q5", "answer": true },
+            { "question_code": "Q7", "answer": true },
+            { "question_code": "Q12", "answer": true }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q1", "answer": false },
+            { "question_code": "Q2", "answer": false },
+            { "question_code": "Q5", "answer": true },
+            { "question_code": "Q7", "answer": true },
+            { "question_code": "Q14", "answer": false }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q6", "answer": false },
+            { "question_code": "Q7", "answer": true },
+            { "question_code": "Q9", "answer": false },
+            { "question_code": "Q13", "answer": false },
+            { "question_code": "Q14", "answer": true }
+        ]
+    },
+    {
+        "operator": "AND",
+        "rules": [
+            { "question_code": "Q4", "answer": false },
+            { "question_code": "Q5", "answer": true },
+            { "question_code": "Q6", "answer": false },
+            { "question_code": "Q7", "answer": false },
+            { "question_code": "Q9", "answer": false },
+            { "question_code": "Q12", "answer": false },
+            { "question_code": "Q13", "answer": true },
+            { "question_code": "Q14", "answer": true }
+        ]
+    }
+]

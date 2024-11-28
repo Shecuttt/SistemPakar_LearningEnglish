@@ -82,7 +82,7 @@ export default function page() {
                                     {question.question}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {question.order_number}
+                                    {question.orderNumber}
                                 </td>
                                 <td className="px-6 py-4">
                                     {question.isActive ? "Active" : "Inactive"}

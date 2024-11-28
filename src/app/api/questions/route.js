@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function GET() {
     try {
         const question = await prisma.question.findMany({
-            orderBy: { question_code: "asc" },
+            orderBy: { orderNumber: "asc" },
         });
         return NextResponse.json(question, { status: 200 });
     } catch (err) {
