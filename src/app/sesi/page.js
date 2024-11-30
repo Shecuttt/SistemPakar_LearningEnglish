@@ -1,6 +1,22 @@
+import Image from "next/image";
 import React from "react";
-
+import book from "../../../public/homework.png";
+import Soal from "../components/Soal";
 
 export default function page() {
-  return <div>page</div>;
+    return (
+        <div className="min-h-screen bg-sesi">
+            <div className="flex items-center justify-between h-screen w-4/5 mx-auto">
+                <Image
+                    src={book}
+                    width={200}
+                    height={200}
+                    alt="book"
+                    priority
+                    className="mx-auto"
+                />
+                <Soal />
+            </div>
+        </div>
+    );
 }

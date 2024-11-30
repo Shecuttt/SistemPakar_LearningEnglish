@@ -1,5 +1,12 @@
 import React from "react";
+import Welcome from "./components/Welcome";
 
 export default function page() {
-  return <div>page</div>;
+    return (
+        <div className="min-h-screen bg-utama">
+            <div className="flex items-center justify-center h-screen">
+                <Welcome />
+            </div>
+        </div>
+    );
 }

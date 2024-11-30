@@ -1,33 +1,23 @@
 import React from "react";
-<<<<<<< HEAD
 import Navbar from "./components/Navbar";
 import "./globals.css";
+import { Montserrat } from "next/font/google";
 
-export default function layout({ children }) {
-  return (
-    <html>
-      <body>
-        <div>
-          <Navbar />
-        </div>
-        <div className="max-w-sm rounde overflow-hidden shadow-lg">
-          <div>Welcome</div>
-        </div>
-      </body>
-    </html>
-  );
-=======
-import Navbar from "./component/Navbar";
-import "./globals.css";
+const montserrat = Montserrat({ subsets: ["latin"] });
+
+export const metadata = {
+    title: "Belajar Rek!",
+    description: "Sistem Pakar Rekomendasi Belajar Bahasa Inggris",
+};
 
 export default function layout({ children }) {
     return (
         <html>
-            <body>
+            <body className={`${montserrat.className} antialiased`}>
                 <Navbar />
-                <div>{children}</div>
+
+                <main>{children}</main>
             </body>
         </html>
     );
->>>>>>> eda6c6e7c127b39f9d13c919f110bf8bb109b841
 }
