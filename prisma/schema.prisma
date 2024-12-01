@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,64 +13,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Question {
-  id            Int       @id @default(autoincrement())
-  question_code String    @unique
-  question      String
-  answers       Answer[]  @relation("QuestionAnswers")
-  orderNumber   Int?      // Urutan pertanyaan
-  isActive      Boolean   @default(true) // Untuk menonaktifkan pertanyaan
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password String
+  role String @default("user")
+  history History[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-model Answer {
-  id         Int      @id @default(autoincrement())
-  isYes      Boolean  // Jawaban Ya (true) atau Tidak (false)
-  questionId Int
-  sessionId  Int
+
+model History {
+  id Int @id @default(autoincrement())
+  userId   Int
+  action String
+  createdAt DateTime @default(now())
   
-  question   Question @relation("QuestionAnswers", fields: [questionId], references: [id])
-  session    Session  @relation("SessionAnswers", fields: [sessionId], references: [id])
-
-  @@index([questionId, sessionId])
-}
-
-model Users {
-  id       Int       @id @default(autoincrement())
-  nama     String
-  umur     String
-  kelas    String
-  sessions Session[] @relation("UserSession")
-}
-
-model Session {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  completed   Boolean  @default(false)
-  result      LearningPath? @relation("SessionResult", fields: [resultId], references: [id])
-  resultId    Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  user        Users    @relation("UserSession", fields: [userId], references: [id])
-  answers     Answer[] @relation("SessionAnswers")
-}
-
-model LearningPath {
-  id          Int       @id @default(autoincrement())
-  code        String    @unique
-  name        String    // Nama jalur pembelajaran
-  description String    // Deskripsi detail
-  level       String    // Tingkat kesulitan
-  sessions    Session[] @relation("SessionResult")
-  rules       Rule[]    @relation("PathRules")
-}
-
-model Rule {
-  id             Int         @id @default(autoincrement())
-  learningPathId Int
-  conditions     Json        // Array of conditions (question_code dan expected answer)
-  priority       Int         @default(0)
-  
-  learningPath   LearningPath @relation("PathRules", fields: [learningPathId], references: [id])
-
-  @@index([learningPathId])
+  user   User  @relation(fields: [userId], references: [id])
 }
