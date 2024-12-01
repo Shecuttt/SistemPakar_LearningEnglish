@@ -7,42 +7,64 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <div className="flex justify-center">
-      <nav className="mt-12 p-6 rounded-full absolute shadow-md bg-black/5 backdrop-blur-sm flex flex-row justify-between items-center w-4/5">
-        <div className="flex space-x-1 text-white">
-          <svg
-            className="w-6 h-6 text-violet-600"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fillRule="evenodd"
-              d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
-              clipRule="evenodd"
-            />
-          </svg>
+      <nav className="top-10 p-3 rounded-full absolute shadow-md bg-black/5 backdrop-blur-sm flex flex-row justify-between items-center w-4/5">
+        <div className="flex flex-row space-x-12">
+          <div className="flex space-x-1 text-white">
+            <svg
+              className="w-6 h-6 text-violet-600"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fillRule="evenodd"
+                d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                clipRule="evenodd"
+              />
+            </svg>
 
-          <h1 className="mr-6 font-bold">Belajar Rek</h1>
+            <h1 className="mr-6 font-bold">Belajar Rek</h1>
+          </div>
+          <div className="flex flex-row space-x-5 text-white">
+            <Link href={"/"} className={pathname === "/" ? "font-bold" : ""}>
+              Beranda
+            </Link>
+            <Link
+              href={"/sesi"}
+              className={pathname === "/sesi" ? "font-bold" : ""}
+            >
+              Mulai
+            </Link>
+            <Link
+              href={"/history"}
+              className={pathname === "/history" ? "font-bold" : ""}
+            >
+              Riwayat
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-row space-x-5 text-white">
-          <Link href={"/"} className={pathname === "/" ? "font-bold" : ""}>
-            Beranda
+        <div className="flex justify-end space-x-4">
+          {/* Jika user belum login, tampilkan ini */}
+          <Link
+            href={"/login"}
+            className="py-2 px-4 rounded-full bg-gray-50 text-violet-600 hover:bg-gray-200"
+          >
+            Login
           </Link>
           <Link
-            href={"/sesi"}
-            className={pathname === "/sesi" ? "font-bold" : ""}
+            href={"/auth/register"}
+            className="py-2 px-4 rounded-full bg-violet-500 hover:bg-violet-700"
           >
-            Mulai
+            Register
           </Link>
-          <Link
-            href={"/history"}
-            className={pathname === "/history" ? "font-bold" : ""}
-          >
-            Riwayat
-          </Link>
+
+          {/* Jika user sudah login, maka tampilkan tombol logout */}
+          {/* <button className="py-2 px-4 rounded-full hover:bg-white/20">
+                        Logout
+                    </button> */}
         </div>
       </nav>
     </div>
