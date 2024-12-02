@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { z } from "zod";
 import { registerSchema } from "../schema/schema";
+import Swal from "sweetalert2";
 
 export default function page() {
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [formData, setFormData] = useState({
         name: "",
@@ -18,6 +20,7 @@ export default function page() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             registerSchema.parse(formData);
 
@@ -38,6 +41,7 @@ export default function page() {
                 email: "",
                 password: "",
             });
+            Swal.fire("Register success!");
             router.push("/login");
         } catch (error) {
             if (error instanceof z.ZodError) {
@@ -46,7 +50,16 @@ export default function page() {
                     fieldsError[error.path[0]] = error.message;
                 });
                 setErrors(fieldsError);
+            } else {
+                Swal.fire({
+                    title: "Failed to register",
+                    text: error.message,
+                    icon: "error",
+                    timer: 3000,
+                });
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -82,6 +95,7 @@ export default function page() {
                             onChange={handleChange}
                             className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 dark:text-black"
                             placeholder="Enter your name"
+                            autoComplete="off"
                         />
                         {errors.name && (
                             <p className="text-red-500 text-xs mt-1">
@@ -105,6 +119,7 @@ export default function page() {
                             onChange={handleChange}
                             className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 dark:text-black"
                             placeholder="Enter your email address"
+                            autoComplete="off"
                         />
                         {errors.email && (
                             <p className="text-red-500 text-xs mt-1">
@@ -137,9 +152,33 @@ export default function page() {
                     </div>
                     <button
                         type="submit"
+                        disabled={loading}
                         className="w-full p-2 text-white bg-violet-600 rounded-md hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500"
                     >
-                        Sign up
+                        {loading ? (
+                            <svg
+                                className="animate-spin h-5 w-5 mx-auto text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V4C5.373 4 4 5.373 4 7v4zm8 8a8 8 0 018 8v4c0-1.627-1.373-3-3-3h-4zm8-8a8 8 0 018-8v4c0 1.627-1.373 3-3 3h-4zm-8 8a8 8 0 018 8v4c0-1.627-1.373-3-3-3h-4z"
+                                ></path>
+                            </svg>
+                        ) : (
+                            "Sign up"
+                        )}
                     </button>
                 </form>
                 <p className="text-sm text-center text-gray-100">
