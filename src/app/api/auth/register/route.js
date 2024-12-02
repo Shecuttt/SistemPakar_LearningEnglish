@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
     try {
-        const { name, email, password } = await req.json();
+        const { name, email, password, role } = await req.json();
 
         if (!name || !email || !password) {
             return new Response(
@@ -21,10 +21,14 @@ export async function POST(req) {
                 name,
                 email,
                 password: hashedPassword,
+                role,
             },
         });
         return new Response(
-            JSON.stringify({ message: "User registered successfully", user }),
+            JSON.stringify({
+                message: "User registered successfully",
+                newUser,
+            }),
             {
                 status: 201,
             }
