@@ -45,6 +45,19 @@ export default function Soal() {
     return recommendedSolution;
   };
 
+  const saveTestHistory = () => {
+    const history = JSON.parse(localStorage.getItem("testHistory")) || [];
+    const newHistory = {
+      date: new Date().toLocaleString(),
+      answers: answers,
+    };
+    localStorage.setItem(
+      "testHistory",
+      JSON.stringify([...history, newHistory])
+    );
+    alert("Tes selesai! Riwayat tersimpan.");
+  };
+
   return (
     <div className="w-1/2 flex flex-col space-y-6">
       <div className="bg-black/5 shadow-sm backdrop-blur-lg rounded-xl p-6">
