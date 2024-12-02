@@ -22,7 +22,7 @@ export default function Soal() {
     }
   };
 
-  // Fungsi untuk menghitung Certainty Factor dan menampilkan solusi
+  // hitung Certainty Factor dan menampilkan solusi
   const calculateSolution = () => {
     let score = 0;
 
@@ -30,7 +30,6 @@ export default function Soal() {
     Object.values(answers).forEach((answer) => {
       if (answer === "Ya") score += 1;
       else if (answer === "Mungkin") score += 0.5;
-      // "Tidak" tetap 0, tidak perlu penanganan khusus
     });
 
     // Tentukan solusi berdasarkan skor
@@ -91,7 +90,7 @@ export default function Soal() {
         </button>
       </div>
 
-      {/* Menampilkan hasil atau solusi */}
+      {/* hasil atau solusi */}
       {showResult && (
         <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center">
           <h2 className="text-2xl text-gray-100">Hasil Diagnosis</h2>
