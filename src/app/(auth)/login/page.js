@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { z } from "zod";
-// import { loginSchema } from "../schema/schema";
+import { loginSchema } from "../schema/schema";
+import Swal from "sweetalert2";
 
 export default function page() {
     const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function page() {
         setError("");
         setLoading(true);
         try {
-            // loginSchema.parse(formData);
+            loginSchema.parse(formData);
             const res = await fetch("/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -40,6 +41,12 @@ export default function page() {
             } else {
                 router.push("/");
             }
+            Swal.fire({
+                title: "Welcome!",
+                text: "Login sukses!",
+                icon: "success",
+                confirmButtonText: "Oke",
+            });
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldsError = {};
@@ -48,6 +55,12 @@ export default function page() {
                 });
                 setErrorValidation(fieldsError);
             } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: error.message,
+                    icon: "error",
+                    confirmButtonText: "Oke",
+                });
                 setError(error.message);
             }
         } finally {
@@ -135,7 +148,7 @@ export default function page() {
                                     cy="12"
                                     r="10"
                                     stroke="currentColor"
-                                    stroke-width="4"
+                                    strokeWidth="4"
                                 ></circle>
                                 <path
                                     className="opacity-75"
